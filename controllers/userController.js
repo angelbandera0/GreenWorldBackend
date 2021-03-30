@@ -47,7 +47,7 @@ const userPut= async(req,res=response)=>{
 
     //Buscar y actualizar
     const user = await User.findByIdAndUpdate( id, resto );
-
+    console.log(user);
     res.status(200).send({"user":user});
     
 
@@ -55,7 +55,10 @@ const userPut= async(req,res=response)=>{
 }
 
 const userDelete= async(req,res=response)=>{
-
+ const { id } = req.params;
+    //Fisicamente lo borramos
+    const user = await User.findByIdAndRemove( id);
+    res.json(user);
 }
 
 module.exports={userPost,userGet,userPut,userDelete}
