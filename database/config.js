@@ -7,7 +7,7 @@ const dbConnection = async() => {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true,
-            //useFindAndModify: false
+            useFindAndModify: false
         });
     
         console.log('Conectado exitosamente a MongoDB Altas');
