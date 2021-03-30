@@ -25,9 +25,10 @@ const userPost = async (req, res = response) => {
   try {
     // Guardar en BD
     await user.save();
-    res.status(201).send({ 
-        msg:"Usuario creado correctame",
-        user: user });
+    res.status(201).send({
+      msg: "Usuario creado correctame",
+      user: user,
+    });
   } catch (e) {
     res.status(400).send({ msg: "Ha ocurrido un error al adicionar" });
   }
