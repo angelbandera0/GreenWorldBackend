@@ -7,7 +7,7 @@ const { userPost, userGet, userPut,userDelete } = require("../controllers/userCo
 /* Route users listing. */
 router.get("/",userGet);
 router.post("/",[check("email","No es valido").isEmail(),validarCampos], userPost);
-router.put("/:id", userPut);
+router.put("/:id",[check("email","No es valido").isEmail(),validarCampos], userPut);
 router.delete("/", userDelete);
 
 module.exports = router;
