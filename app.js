@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const plantasRouter = require('./routes/plantas');
 const cors=require('cors');
 const { dbConnection } = require('./database/config');
 
@@ -29,6 +30,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 //routes
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/planta', plantasRouter);
+
 
 // Conectar a base de datos
 dbConnection();
