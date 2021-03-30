@@ -20,7 +20,7 @@ const userGet = async(req = request, res = response) => {
         "users":users
     });
 }
-
+//Agregar Usuario
 const userPost= async(req,res=response)=>{
     const { name,  password,email, rol,img} = req.body;
     const user = new User({  name,  password,email, rol,img});
