@@ -34,4 +34,28 @@ const userPost= async(req,res=response)=>{
     res.status(201).send({"user":user});
 }
 
-module.exports={userPost,userGet}
+const userPut= async(req,res=response)=>{
+
+    const {id}=req.params;
+    const { _id,password, email,...resto} = req.body;
+
+    if ( password ) {
+        // Encriptar la contraseña
+        const salt = bcryptjs.genSaltSync();
+        resto.password = bcryptjs.hashSync( password, salt );
+    }
+
+    
+    const user = await User.findByIdAndUpdate( id, resto );
+
+    res.status(200).send({"user":user});
+    
+
+
+}
+
+const userDelete= async(req,res=response)=>{
+
+}
+
+module.exports={userPost,userGet,userPut,userDelete}
