@@ -36,7 +36,7 @@ const userPost = async (req, res = response) => {
 
 const userPut = async (req, res = response) => {
   const { id } = req.params;
-  const { _id, password, email, ...resto } = req.body;
+  const { _id, password, email,createdAt, ...resto } = req.body;
 
   try {
     if (password) {
@@ -44,6 +44,8 @@ const userPut = async (req, res = response) => {
       const salt = bcryptjs.genSaltSync();
       resto.password = bcryptjs.hashSync(password, salt);
     }
+    //actualiza la fecha de actualización
+    resto.updatedAt=Date.now();
 
     //Buscar y actualizar
     await User.findByIdAndUpdate(id, resto);
