@@ -10,6 +10,7 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const plantasRouter = require('./routes/plantas');
+const authRouter = require('./routes/auth');
 const cors=require('cors');
 const { dbConnection } = require('./database/config');
 
@@ -31,6 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/planta', plantasRouter);
+app.use('/api/auth', authRouter);
 
 
 // Conectar a base de datos
