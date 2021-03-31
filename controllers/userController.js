@@ -44,6 +44,7 @@ const userPut = async (req, res = response) => {
       const salt = bcryptjs.genSaltSync();
       resto.password = bcryptjs.hashSync(password, salt);
     }
+    //actualiza la fecha de actualización
     resto.updatedAt=Date.now();
 
     //Buscar y actualizar
