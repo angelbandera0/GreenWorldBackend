@@ -14,7 +14,7 @@ const userSchema = new Schema({
     },
     email:{
         type:String,
-        required:[true,'El nombre es obligatorio'],
+        required:[true,'El email es obligatorio'],
         unique:true,
     },
     rol:{
@@ -24,10 +24,6 @@ const userSchema = new Schema({
     },
     img: {
         type: String,
-    },
-    isDeleted: {
-        type: Boolean,
-        default: false
     },
     createdAt:{
         type: Date,
