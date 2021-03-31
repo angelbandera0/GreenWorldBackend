@@ -3,10 +3,14 @@ const bcryptjs = require("bcryptjs");
 
 const User = require("../models/user");
 
+//obtener listado de usuarios de forma paginada
+//limite y desde son parametros pasados por la url
 const userGet = async (req = request, res = response) => {
+  const { limite = 5, desde = 0 } = req.query;
   const [total, users] = await Promise.all([
     User.countDocuments(),
-    User.find(),
+    User.find().skip( Number( desde ) )
+    .limit(Number( limite ))
   ]);
 
   res.status(200).send({
