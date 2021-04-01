@@ -1,4 +1,4 @@
-const {Schema,model}=require("mongoose");
+const {Schema,model,Types}=require("mongoose");
 
 // Declare the Schema of the Mongo model
 const userSchema = new Schema({
@@ -18,9 +18,10 @@ const userSchema = new Schema({
         unique:true,
     },
     rol:{
-        type:String,
+        type:Schema.Types.ObjectId,
         required:true,
-        emun: ['ADMIN_ROLE', 'USER_ROLE']
+        ref: 'Role',
+        default: Types.ObjectId("4edd40c86762e0fb12000001")
     },
     img: {
         type: String,
