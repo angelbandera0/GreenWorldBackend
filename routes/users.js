@@ -20,20 +20,20 @@ router.post("/",[
     check('password', 'El password debe de ser más de 6 letras').isLength({ min: 6 }),
     check("email","El correo no es válido").isEmail(),
     check('email').custom( emailExist ),  
-    check('rol').custom( isRoleValid ), 
+    //check('rol').custom( isRoleValid ), 
     validarCampos], userPost);
 
 router.put("/:id",[
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom( existUserById ),
-    check('rol').custom( isRoleValid ), 
+    //check('rol').custom( isRoleValid ), 
     validarCampos],
     userPut);
 
 router.delete("/:id",[
     validarJWT,
-    // esAdminRole,
-    tieneRole('ADMIN_ROLE'),
+     esAdminRole,
+    //tieneRole('ADMIN_ROLE'),
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom( existUserById ),
     validarCampos
