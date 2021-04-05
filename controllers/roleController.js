@@ -13,8 +13,8 @@ const initRolesDB = async () => {
     const roleUser = new Rol({ rol: "USER_ROLE" });
 
     //define los ObjectId de manera fija
-    const _ida = mongoose.Types.ObjectId("4edd40c86762e0fb12000002");
-    const _idu = mongoose.Types.ObjectId("4edd40c86762e0fb12000001");
+    const _ida = mongoose.Types.ObjectId("4edd40c86762e0fb12000002");//role admin
+    const _idu = mongoose.Types.ObjectId("4edd40c86762e0fb12000001");//role user
 
     //actualiza los roles con los nuevos ObjectId
     roleAdmin._id = _ida;
