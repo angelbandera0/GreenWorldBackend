@@ -1,7 +1,7 @@
 const { request, response } = require("express");
 const bcryptjs = require("bcryptjs");
 
-const User = require("../models/user");
+const { User } = require('../models');
 
 //obtener listado de usuarios de forma paginada
 //limite y desde son parametros pasados por la url
@@ -9,8 +9,10 @@ const userGet = async (req = request, res = response) => {
   const { limite = 5, desde = 0 } = req.query;
   const [total, users] = await Promise.all([
     User.countDocuments(),
-    User.find().skip( Number( desde ) )
-    .limit(Number( limite ))
+    User.find()
+        .populate("rol")
+        .skip(Number(desde))
+        .limit(Number(limite)),
   ]);
 
   res.status(200).send({
@@ -38,9 +40,10 @@ const userPost = async (req, res = response) => {
   }
 };
 
+//actualiza un usuario
 const userPut = async (req, res = response) => {
   const { id } = req.params;
-  const { _id, password, email,createdAt, ...resto } = req.body;
+  const { _id, password, email, createdAt,rol, ...resto } = req.body;
 
   try {
     if (password) {
@@ -49,7 +52,7 @@ const userPut = async (req, res = response) => {
       resto.password = bcryptjs.hashSync(password, salt);
     }
     //actualiza la fecha de actualización
-    resto.updatedAt=Date.now();
+    resto.updatedAt = Date.now();
 
     //Buscar y actualizar
     await User.findByIdAndUpdate(id, resto);
@@ -59,6 +62,7 @@ const userPut = async (req, res = response) => {
   }
 };
 
+//elimina un usuario
 const userDelete = async (req, res = response) => {
   const { id } = req.params;
   //Fisicamente lo borramos
