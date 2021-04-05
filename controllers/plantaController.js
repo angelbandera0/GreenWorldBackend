@@ -1,7 +1,7 @@
 const { request, response } = require('express');
 const bcryptjs = require('bcryptjs');
 
-const Planta=require('../models/planta');
+const { Planta } = require('../models');
 
 const plantaGet = async(req = request, res = response) => {
 

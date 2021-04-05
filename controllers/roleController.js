@@ -1,5 +1,5 @@
 const { request, response } = require("express");
-const Rol = require("../models/rol");
+const { Rol } = require('../models');
 
 //agrega los roles de los usuarios
 const initRolesDB = async () => {
