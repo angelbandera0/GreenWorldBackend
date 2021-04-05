@@ -26,6 +26,11 @@ const userSchema = new Schema({
     img: {
         type: String,
     },
+    //campo para decir si el user se unió usando google o no
+    google: {
+        type: Boolean,
+        default: false
+    },
     createdAt:{
         type: Date,
         default: Date.now()
