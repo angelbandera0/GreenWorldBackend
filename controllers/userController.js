@@ -1,7 +1,7 @@
 const { request, response } = require("express");
 const bcryptjs = require("bcryptjs");
 
-const { User } = require('../models');
+const { User,Rol } = require('../models');
 
 //obtener listado de usuarios de forma paginada
 //limite y desde son parametros pasados por la url
@@ -24,18 +24,25 @@ const userGet = async (req = request, res = response) => {
 const userPost = async (req, res = response) => {
   const { name, password, email, rol, img } = req.body;
   const user = new User({ name, password, email, rol, img });
-
+  
   // Encriptar la contraseña
   const salt = bcryptjs.genSaltSync();
   user.password = bcryptjs.hashSync(password, salt);
   try {
     // Guardar en BD
-    await user.save();
+    const resU = await user.save();
+    //console.log(res.rol);
+    const resRol = await Rol.findById(resU.rol);
+    resRol.users.push(user);
+    await resRol.save();
+  
+
     res.status(201).send({
       msg: "Usuario creado correctame",
       user: user,
     });
   } catch (e) {
+    console.log(e);
     res.status(400).send({ msg: "Ha ocurrido un error al adicionar" });
   }
 };
