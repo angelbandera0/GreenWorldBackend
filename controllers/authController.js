@@ -8,9 +8,8 @@ const { googleVerify } = require('../helpers/google-verify');
 
 
 const login = async(req, res = response) => {
-
+    //obtiene el email y la contraseña q se le envia 
     const { email, password } = req.body;
-    console.log(email,password);
     try {
       
         // Verificar si el email existe
@@ -33,9 +32,9 @@ const login = async(req, res = response) => {
         // Generar el JWT
         const token = await generarJWT( usuario.id );
 
-        res.json({
-            usuario,
-            token
+        res.status(200).send({
+            "user":usuario,
+            "user":token
         })
 
     } catch (error) {

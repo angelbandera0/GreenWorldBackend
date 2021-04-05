@@ -28,18 +28,20 @@ const userPost = async (req, res = response) => {
   // Encriptar la contraseña
   const salt = bcryptjs.genSaltSync();
   user.password = bcryptjs.hashSync(password, salt);
-  try {
-    // Guardar en BD
-    const resU = await user.save();
-    //console.log(res.rol);
-    const resRol = await Rol.findById(resU.rol);
-    resRol.users.push(user);
-    await resRol.save();
   
+  try {
+    // Guardar en DB
+    const resU = await user.save();
+    //Buscar el Rol en la DB
+    const resRol = await Rol.findById(resU.rol);
+    //Asignar el user al array de user del rol
+    resRol.users.push(user);
+    //guardar cambios en el rol 
+    await resRol.save();  
 
     res.status(201).send({
       msg: "Usuario creado correctame",
-      user: user,
+      user: resU,
     });
   } catch (e) {
     console.log(e);
