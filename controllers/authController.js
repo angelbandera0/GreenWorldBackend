@@ -1,102 +1,94 @@
-const { response } = require('express');
-const bcryptjs = require('bcryptjs')
+const { response } = require("express");
+const bcryptjs = require("bcryptjs");
 
-const { User,Rol } = require('../models');
+const { User, Rol } = require("../models");
 
-const { generarJWT } = require('../helpers/generar_jwt');
-const { googleVerify } = require('../helpers/google-verify');
+const { generarJWT } = require("../helpers/generar_jwt");
+const { googleVerify } = require("../helpers/google-verify");
 
+const login = async (req, res = response) => {
+  //obtiene el email y la contraseña q se le envia
+  const { email, password } = req.body;
+  try {
+    // Verificar si el email existe
+    const usuario = await User.findOne({ email });
+    if (!usuario) {
+      return res.status(400).json({
+        msg: "User / Password no son correctos - correo",
+      });
+    }
 
-const login = async(req, res = response) => {
-    //obtiene el email y la contraseña q se le envia 
-    const { email, password } = req.body;
-    try {
-      
-        // Verificar si el email existe
-        const usuario = await User.findOne({ email });
-        if ( !usuario ) {
-            return res.status(400).json({
-                msg: 'User / Password no son correctos - correo'
-            });
-        }
+    // Verificar la contraseña
+    const validPassword = bcryptjs.compareSync(password, usuario.password);
+    if (!validPassword) {
+      return res.status(400).json({
+        msg: "User / Password no son correctos - password",
+      });
+    }
 
-        
-        // Verificar la contraseña
-        const validPassword = bcryptjs.compareSync( password, usuario.password );
-        if ( !validPassword ) {
-            return res.status(400).json({
-                msg: 'User / Password no son correctos - password'
-            });
-        }
+    // Generar el JWT
+    const token = await generarJWT(usuario.id);
 
-        // Generar el JWT
-        const token = await generarJWT( usuario.id );
+    res.status(200).send({
+      user: usuario,
+      user: token,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      msg: "Hable con el administrador",
+    });
+  }
+};
 
-        res.status(200).send({
-            "user":usuario,
-            "user":token
-        })
+const googleSignin = async (req, res = response) => {
+  const { id_token } = req.body;
 
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            msg: 'Hable con el administrador'
-        });
-    }   
+  try {
+    const { email, name, img } = await googleVerify(id_token);
+    let usuario = await User.findOne({ email });
 
-}
+    if (!usuario) {
+      // Tengo que crearlo
+      const data = {
+        name,
+        email,
+        password: ":P",
+        img,
+        google: true,
+      };
 
-const googleSignin = async(req, res = response) => {
+      usuario = new User(data);
+      //Buscar el Rol en la DB
+      const resRol = await Rol.findById(resU.rol);
+      //Asignar el user al array de user del rol
+      resRol.users.push(user);
+      //guardar cambios en el rol
+      await resRol.save();
+    }
 
-    const { id_token } = req.body;
-
-        try {            
-        const { email, name, img } = await googleVerify( id_token );
-        let usuario = await User.findOne({ email });
-
-        if ( !usuario ) {
-            // Tengo que crearlo
-            const data = {
-                name,
-                email,
-                password: ':P',
-                img,
-                google: true
-            };
-
-            usuario = new User( data );
-            const resU = await usuario.save();
-            const resRol = await Rol.findById(resU.rol);
-            resRol.users.push(user);
-            await resRol.save();
-        }
-
-        // Si el usuario en DB
-        /*if ( !usuario.estado ) {
+    // Si el usuario en DB
+    /*if ( !usuario.estado ) {
             return res.status(401).json({
                 msg: 'Hable con el administrador, usuario bloqueado'
             });
         }*/
 
-        // Generar el JWT
-        const token = await generarJWT( usuario.id );
-        
-        res.json({
-            usuario,
-            token
-        });
-        
-    } catch (error) {
+    // Generar el JWT
+    const token = await generarJWT(usuario.id);
 
-        res.status(400).json({
-            msg: 'Token de Google no es válido'
-        })
-
-    }
-}
-
-
+    res.json({
+      usuario,
+      token,
+    });
+  } catch (error) {
+    res.status(400).json({
+      msg: "Token de Google no es válido",
+    });
+  }
+};
 
 module.exports = {
-    login,googleSignin
-}
+  login,
+  googleSignin,
+};
