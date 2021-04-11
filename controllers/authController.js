@@ -11,7 +11,7 @@ const login = async (req, res = response) => {
   const { email, password } = req.body;
   try {
     // Verificar si el email existe
-    const usuario = await User.findOne({ email });
+    const usuario = await User.findOne({ email }).populate("rol");
     if (!usuario) {
       return res.status(400).json({
         msg: "User / Password no son correctos - correo",
@@ -31,7 +31,7 @@ const login = async (req, res = response) => {
 
     res.status(200).send({
       user: usuario,
-      user: token,
+      token: token,
     });
   } catch (error) {
     console.log(error);
@@ -42,6 +42,8 @@ const login = async (req, res = response) => {
 };
 
 const googleSignin = async (req, res = response) => {
+  console.log(req.body);
+  
   const { id_token } = req.body;
 
   try {
@@ -77,9 +79,9 @@ const googleSignin = async (req, res = response) => {
     // Generar el JWT
     const token = await generarJWT(usuario.id);
 
-    res.json({
-      usuario,
-      token,
+    res.status(200).send({
+      user: usuario,
+      token: token,
     });
   } catch (error) {
     res.status(400).json({
