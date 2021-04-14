@@ -62,7 +62,7 @@ const googleSignin = async (req, res = response) => {
 
       usuario = new User(data);
       //Buscar el Rol en la DB
-      const resRol = await Rol.findById(resU.rol);
+      const resRol = await Rol.findById(usuario.rol);
       //Asignar el user al array de user del rol
       resRol.users.push(user);
       //guardar cambios en el rol
