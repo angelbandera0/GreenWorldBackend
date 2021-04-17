@@ -16,11 +16,6 @@ const plantaSchema = new Schema({
         type:String,
 
     },
-    cantLikes:{
-        type:Number,
-        default: 0
-        
-    },
     cuidados: {
         type: String,
     },
@@ -32,6 +27,7 @@ const plantaSchema = new Schema({
         type: Boolean,
         default: false
     },
+    likes: [{ type: Schema.Types.ObjectId, ref: "Like" }],
     createdAt:{
         type: Date,
         default: Date.now()
