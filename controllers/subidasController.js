@@ -22,7 +22,7 @@ const actualizarImagenCloudinary = async(tempFilePath,modeloImageUrl) => {
 
 }
 
-const eliminarPlanta = async(modeloImageUrl) => {
+const eliminarImagenCloudinary = async(modeloImageUrl) => {
     if ( modeloImageUrl ) {
         const nombreArr = modeloImageUrl.split('/');
         const nombre    = nombreArr[ nombreArr.length - 1 ];
@@ -35,5 +35,5 @@ const eliminarPlanta = async(modeloImageUrl) => {
 module.exports={
     subidaImagenCloudinary,
     actualizarImagenCloudinary,
-    eliminarPlanta
+    eliminarImagenCloudinary
 }
