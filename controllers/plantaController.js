@@ -1,6 +1,6 @@
 const { request, response } = require("express");
 const bcryptjs = require("bcryptjs");
-const { subidaImagenCloudinary, actualizarImagenCloudinary, eliminarPlanta } = require("./subidasController");
+const { subidaImagenCloudinary, actualizarImagenCloudinary, eliminarImagenCloudinary } = require("./subidasController");
 const { Planta } = require("../models");
 
 const plantaGet = async (req = request, res = response) => {
@@ -83,7 +83,7 @@ const plantaDelete = async (req, res = response) => {
   try {
     //Fisicamente lo borramos
     const resp = await Planta.findByIdAndRemove(id);
-    eliminarPlanta(resp.img);
+    eliminarImagenCloudinary(resp.img);
 
     res.status(200).send({ msg: "Planta eliminada correctamente" });
   } catch (e) {
