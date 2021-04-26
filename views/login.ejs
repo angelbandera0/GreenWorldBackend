@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <%- include('shared/head') %>
+    <link rel="stylesheet" href="login.css">
+    <meta name="google-signin-client_id"
+            content="138460196788-44lbh5vtkljc25uvomhg63gll99kfk3u.apps.googleusercontent.com">
+
+</head>
+
+<body class="text-center">
+
+    <div class="container">
+        <div class="col-md-6 offset-md-3 espaciado">
+            <div class="checkout_details_area clearfix">
+                <h5>Iniciar Sesión</h5>
+                <form action="#" method="post">
+                    <div class="row">
+                        <div class="col-md-12 md-4">
+                            <label for="email_address">Email Address:</label>
+                            <input type="email" class="form-control" id="email">
+                        </div>
+                        <div class="col-12 mb-4">
+                            <label for="phone_number">Password:</label>
+                            <input type="password" class="form-control" id="password">
+                        </div>
+
+                        <div class="col-md-12 mb-4">
+                            <div class="checkout-btn mt-30" onclick="login()">
+                                <a href="#" class="btn alazea-btn w-100">Iniciar Sesión</a>
+                            </div>
+                            <br>
+                            <div id="customBtn" class="customGPlusSignIn">
+                                <span class="icon"></span>
+                                <span class="buttonText">Iniciar Sesión Con Google</span>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="col-md-12 mb-4">
+                            <p>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                ©
+                                <script>document.write(new Date().getFullYear());</script> All rights reserved | This
+                                template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a
+                                    href="https://colorlib.com" target="_blank">Colorlib</a>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </p>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <%- include('shared/scripts') %>
+
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <script src="https://apis.google.com/js/api:client.js"></script>
+        <script src="/js/normal-auth.js"></script>
+        <script src="/js/google-auth.js"></script>
+        <script>startApp();</script>
+        <script>
+            console.log(getSession());
+        </script>
+
+
+</body>
+
+</html>

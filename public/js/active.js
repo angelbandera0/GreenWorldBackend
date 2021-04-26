@@ -9,7 +9,6 @@
             $(this).remove();
         });
     });
-console.log($.fn);
     // :: 2.0 Nav Active Code
     if ($.fn.classyNav) {
         $('#alazeaNav').classyNav();

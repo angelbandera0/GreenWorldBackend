@@ -48,7 +48,7 @@ const googleSignin = async (req, res = response) => {
 
   try {
     const { email, name, img } = await googleVerify(id_token);
-    let usuario = await User.findOne({ email });
+    let usuario = await User.findOne({ email }).populate("rol");
 
     if (!usuario) {
       // Tengo que crearlo
@@ -61,6 +61,7 @@ const googleSignin = async (req, res = response) => {
       };
 
       usuario = new User(data);
+      let newUser = await usuario.save();
       //Buscar el Rol en la DB
       const resRol = await Rol.findById(usuario.rol);
       //Asignar el user al array de user del rol
@@ -68,13 +69,6 @@ const googleSignin = async (req, res = response) => {
       //guardar cambios en el rol
       await resRol.save();
     }
-
-    // Si el usuario en DB
-    /*if ( !usuario.estado ) {
-            return res.status(401).json({
-                msg: 'Hable con el administrador, usuario bloqueado'
-            });
-        }*/
 
     // Generar el JWT
     const token = await generarJWT(usuario.id);

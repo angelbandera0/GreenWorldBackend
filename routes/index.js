@@ -5,5 +5,8 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   res.render('shop', { title: 'Express' });
 });
+router.get('/login', function(req, res, next) {
+  res.render('login', { title: 'Iniciar Sesión | Green World Cuba' });
+});
 
 module.exports = router;
