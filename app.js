@@ -7,7 +7,8 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const logger = require('morgan');
+
+const morgan = require('morgan');
 const fileUpload = require('express-fileupload');
 
 const indexRouter = require('./routes/index');
@@ -16,18 +17,22 @@ const plantasRouter = require('./routes/plantas');
 const authRouter = require('./routes/auth');
 const likesRouter = require('./routes/likes');
 
-const { dbConnection } = require('./database/config');
+const { dbConnection } = require('./config/mongodb');
 const { initRolesDB } = require('./controllers/roleController');
+//import winston config
+const {Logger}=require('./config/winston');
+//prueba de log
+Logger.log('error',"dfghjkjhg");
 
 const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
 //middlewares
 app.use(cors());
-app.use(logger('dev'));
+//use morgan with winston
+app.use(morgan("dev", { "stream": Logger.stream }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
